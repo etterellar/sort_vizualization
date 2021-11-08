@@ -48107,7 +48107,7 @@ if(q==null)q=$.d6=new E.fy()
 return new M.rQ(new E.p4(s,new E.GG(p,p,1/0,56),p),T.KS(M.a6M(new F.ZT(b),p,q.Ex(0,r,!1,p,t.or),p,t.o9),p,p),E.a6F(C.yR,!1,new F.ZU(),"Increment"),p)}}
 F.ZT.prototype={
 $1(a){var s,r,q,p=null,o="Elements amount: "+a.dx,n=a.dx
-n=R.a89(100,C.f.h(n),99,2,new F.ZO(a),n)
+n=R.a89(90,C.f.h(n),99,10,new F.ZO(a),n)
 s=a.go
 r="Vizualization speed: "+s.h(0)
 q=s.gl(s)
