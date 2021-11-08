@@ -44,101 +44,135 @@ class _MyHomePageState extends State<MyHomePage> {
           init: Get.put(SortController()),
           builder: (controller) {
             // return Text(controller.size.toString());
-            return Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                const SizedBox(
-                  height: 5,
-                ),
-                SettingsElement(
-                  title: "Elements amount",
-                  child: Slider(
-                    value: controller.size.toDouble(),
-                    min: 1,
-                    max: 101,
-                    divisions: 100,
-                    label: controller.size.toString(),
-                    onChanged: (double value) {
-                      controller.updateSize(size: value.toInt());
-                    },
+            return Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10.0,
+                vertical: 5,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  const SizedBox(
+                    height: 5,
                   ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Obx(
-                  () => SettingsElement(
-                    title: "Sort method",
-                    child: DropdownButton(
-                      items: SortController.sortTypes.map((String e) {
-                        return DropdownMenuItem<String>(
-                            value: e, child: Text(e));
-                      }).toList(),
-                      onChanged: (dynamic value) {
-                        controller.updateSelectedSort(type: value as String);
+                  SettingsElement(
+                    title: "Elements amount: ${controller.size}",
+                    child: Slider(
+                      value: controller.size.toDouble(),
+                      min: 2,
+                      max: 99,
+                      divisions: 100,
+                      label: controller.size.toString(),
+                      onChanged: (double value) {
+                        controller.updateSize(size: value.toInt());
                       },
-                      value: SortController
-                          .sortTypes[controller.selectedSortType.value],
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Expanded(
-                  child: LayoutBuilder(builder: (context, constraints) {
-                    final height = constraints.maxHeight;
-                    final maxElement = controller.lst.value.reduce(max);
-                    return Obx(() => Row(
-                          mainAxisSize: MainAxisSize.max,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ...[
-                              for (int i = 0; i < controller.size; i++)
-                                Flexible(
-                                  child: Container(
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: 2),
-                                    padding: controller.size <= 20
-                                        ? const EdgeInsets.all(2)
-                                        : null,
-                                    height: height *
-                                        controller.lst.value[i] /
-                                        maxElement,
-                                    color: i == controller.selectedInd.value
-                                        ? Theme.of(context).errorColor
-                                        : Theme.of(context).primaryColor,
-                                    child: Text(
-                                      // controller.size <= 20
-                                      // ?
-                                      controller.lst.value[i].toString(),
-                                      // : ' ',
-                                      style: TextStyle(
-                                          color: controller.size <= 20
-                                              ? Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1
-                                                  ?.color
-                                              : Colors.transparent),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Obx(
+                    () => SettingsElement(
+                      title: "Sort method",
+                      child: DropdownButton(
+                        items: SortController.sortTypes.map((String e) {
+                          return DropdownMenuItem<String>(
+                              value: e, child: Text(e));
+                        }).toList(),
+                        onChanged: (dynamic value) {
+                          controller.updateSelectedSort(type: value as String);
+                        },
+                        value: SortController
+                            .sortTypes[controller.selectedSortType.value],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SettingsElement(
+                    title: "Vizualization speed: ${controller.selectedSpeed}",
+                    child: Slider(
+                      value: controller.selectedSpeed.toDouble(),
+                      min: 1,
+                      max: 10,
+                      divisions: 11,
+                      label: controller.selectedSpeed.toString(),
+                      onChanged: (double value) {
+                        controller.updateSelectedSpeed(speed: value.toInt());
+                      },
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Expanded(
+                    child: LayoutBuilder(builder: (context, constraints) {
+                      final height = constraints.maxHeight;
+                      final maxElement = controller.lst.value.reduce(max);
+                      return Obx(() => Row(
+                            mainAxisSize: MainAxisSize.max,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ...[
+                                for (int i = 0; i < controller.size; i++)
+                                  Flexible(
+                                    child: Container(
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 2),
+                                      padding: controller.size <= 20
+                                          ? const EdgeInsets.all(2)
+                                          : null,
+                                      height: height *
+                                          controller.lst.value[i] /
+                                          maxElement,
+                                      color: i == controller.selectedInd.value
+                                          ? Theme.of(context).errorColor
+                                          : Theme.of(context).primaryColor,
+                                      // child: Text(
+                                      //   // controller.size <= 20
+                                      //   // ?
+                                      //   controller.lst.value[i].toString(),
+                                      //   // : ' ',
+                                      //   style: TextStyle(
+                                      //       color: controller.size <= 20
+                                      //           ? Theme.of(context)
+                                      //               .textTheme
+                                      //               .bodyText1
+                                      //               ?.color
+                                      //           : Colors.transparent),
+                                      // ),
                                     ),
                                   ),
-                                ),
-                            ]
-                          ],
-                        ));
-                  }),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Flexible(
-                  child: ElevatedButton(
-                    onPressed: () => controller.performSort(),
-                    child: Text("Sort"),
+                              ]
+                            ],
+                          ));
+                    }),
                   ),
-                ),
-              ],
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Flexible(
+                    child: Obx(
+                      () => ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor: controller.sortInProgress.value
+                                ? MaterialStateProperty.all(
+                                    Theme.of(context).errorColor)
+                                : MaterialStateProperty.all(
+                                    Theme.of(context).primaryColor)),
+                        onPressed: () => controller.sortInProgress.value
+                            ? controller.setNeedStop()
+                            : controller.performSort(),
+                        child: controller.sortInProgress.value
+                            ? Text("Stop")
+                            : Text("Sort"),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             );
           },
         ),

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:get/get.dart';
 
 class SortController extends GetxController {
@@ -9,11 +7,18 @@ class SortController extends GetxController {
 
   RxInt selectedSortType = 0.obs;
 
+  RxBool needStop = false.obs;
+
+  int baseTimeLimit = 50;
+
+  RxInt selectedSpeed = 1.obs;
+
+  RxBool sortInProgress = false.obs;
+
   static const List<String> sortTypes = [
-    "Bubble Sort",
+    "Bubble sort",
     "Gnome sort",
-    "Quick Sort",
-    "Shaker Sort"
+    "Cocktail shaker sort"
   ];
 
   @override
@@ -23,6 +28,7 @@ class SortController extends GetxController {
   }
 
   void updateSize({required int size}) {
+    setNeedStop();
     this.size = size;
     generateList();
     update();
@@ -40,35 +46,130 @@ class SortController extends GetxController {
     update();
   }
 
-  void performSort() {
+  void updateSelectedSpeed({required int speed}) {
+    selectedSpeed.value = speed;
+    update();
+  }
+
+  Future<void> performSort() async {
+    sortInProgress.value = true;
+    update();
+    needStop.value = false;
     switch (selectedSortType.value) {
       case 0:
-        bubbleSort();
+        await bubbleSort();
+        break;
+      case 1:
+        await gnomeSort();
+        break;
+      case 2:
+        await shakerSort();
         break;
       default:
         lst.sort();
     }
+    sortInProgress.value = false;
+    selectedInd.value = -1;
+    update();
+  }
+
+  Future<void> setNeedStop() async {
+    needStop.value = true;
+    update();
+    await Future.delayed(50.milliseconds);
+    sortInProgress.value = false;
     update();
   }
 
   Future<void> bubbleSort() async {
     for (int i = 0; i < size - 1; i++) {
-      bool flag = false;
       for (int j = 0; j < size - i - 1; j++) {
-        selectedInd.value = j;
-        update();
-        if (lst[j] > lst[j + 1]) {
-          final int tmp = lst[j];
-          lst[j] = lst[j + 1];
-          lst[j + 1] = tmp;
-          update();
-          // flag = true;
+        if (needStop.value) {
+          updateSelectedInd(-1);
+          return;
         }
-        await Future.delayed(20.milliseconds);
+        updateSelectedInd(j);
+        if (lst[j] > lst[j + 1]) {
+          swapElements(j, j + 1);
+        }
+        await Future.delayed(
+            (baseTimeLimit / selectedSpeed.value).milliseconds);
       }
-      // if (!flag) {
-      //   break;
-      // }
     }
+  }
+
+  Future<void> shakerSort() async {
+    bool swapped = false;
+    do {
+      swapped = false;
+      for (int i = 0; i < size - 2; i++) {
+        if (needStop.value) {
+          updateSelectedInd(-1);
+          return;
+        }
+        updateSelectedInd(i);
+        if (lst[i] > lst[i + 1]) {
+          swapElements(i, i + 1);
+          swapped = true;
+        }
+        await Future.delayed(
+            (baseTimeLimit / selectedSpeed.value).milliseconds);
+      }
+      if (!swapped) {
+        break;
+      }
+      swapped = false;
+      for (int i = size - 2; i >= 0; i--) {
+        if (needStop.value) {
+          updateSelectedInd(-1);
+          return;
+        }
+        updateSelectedInd(i);
+
+        if (lst[i] > lst[i + 1]) {
+          swapElements(i, i + 1);
+          swapped = true;
+        }
+        await Future.delayed(
+            (baseTimeLimit / selectedSpeed.value).milliseconds);
+      }
+    } while (swapped);
+  }
+
+  Future<void> gnomeSort() async {
+    int i = 1;
+    int j = 2;
+    while (i < size) {
+      if (needStop.value) {
+        updateSelectedInd(-1);
+        return;
+      }
+      if (lst[i - 1] < lst[i]) {
+        i = j;
+        updateSelectedInd(i);
+        j += 1;
+      } else {
+        swapElements(i, i - 1);
+        i -= 1;
+        if (i == 0) {
+          i = j;
+          j += 1;
+        }
+        updateSelectedInd(i);
+      }
+      await Future.delayed((baseTimeLimit / selectedSpeed.value).milliseconds);
+    }
+  }
+
+  void swapElements(i, j) {
+    final int tmp = lst[i];
+    lst[i] = lst[j];
+    lst[j] = tmp;
+    update();
+  }
+
+  void updateSelectedInd(int ind) {
+    selectedInd.value = ind;
+    update();
   }
 }
