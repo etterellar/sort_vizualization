@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <!--
     If you are serving your web app in a path other than the root, change the
@@ -28,11 +29,14 @@
 
   <title>sort_vizualization</title>
   <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
+
 <body>
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
+  <h1 class="center">Loading...</h1>
   <script>
     var serviceWorkerVersion = null;
     var scriptLoaded = false;
@@ -98,4 +102,5 @@
     }
   </script>
 </body>
+
 </html>

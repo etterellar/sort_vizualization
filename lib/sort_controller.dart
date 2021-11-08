@@ -18,7 +18,8 @@ class SortController extends GetxController {
   static const List<String> sortTypes = [
     "Bubble sort",
     "Gnome sort",
-    "Cocktail shaker sort"
+    "Cocktail shaker sort",
+    "Insertion sort",
   ];
 
   @override
@@ -64,6 +65,9 @@ class SortController extends GetxController {
         break;
       case 2:
         await shakerSort();
+        break;
+      case 3:
+        await insertionSort();
         break;
       default:
         lst.sort();
@@ -134,6 +138,33 @@ class SortController extends GetxController {
             (baseTimeLimit / selectedSpeed.value).milliseconds);
       }
     } while (swapped);
+  }
+
+  Future<void> insertionSort() async {
+    for (int i = 0; i < size; i++) {
+      if (needStop.value) {
+        updateSelectedInd(-1);
+        return;
+      }
+      updateSelectedInd(i);
+      int key = lst[i];
+      int j = i - 1;
+      updateSelectedInd(j);
+
+      while (j >= 0 && key < lst[j]) {
+        if (needStop.value) {
+          updateSelectedInd(-1);
+          return;
+        }
+        lst[j + 1] = lst[j];
+        j -= 1;
+        updateSelectedInd(j);
+        await Future.delayed(
+            (baseTimeLimit / selectedSpeed.value).milliseconds);
+      }
+      lst[j + 1] = key;
+      await Future.delayed((baseTimeLimit / selectedSpeed.value).milliseconds);
+    }
   }
 
   Future<void> gnomeSort() async {

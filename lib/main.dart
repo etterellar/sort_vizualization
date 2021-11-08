@@ -59,9 +59,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     title: "Elements amount: ${controller.size}",
                     child: Slider(
                       value: controller.size.toDouble(),
-                      min: 2,
+                      min: 10,
                       max: 99,
-                      divisions: 100,
+                      divisions: 90,
                       label: controller.size.toString(),
                       onChanged: (double value) {
                         controller.updateSize(size: value.toInt());
@@ -153,23 +153,24 @@ class _MyHomePageState extends State<MyHomePage> {
                   const SizedBox(
                     height: 20,
                   ),
-                  Flexible(
-                    child: Obx(
-                      () => ElevatedButton(
-                        style: ButtonStyle(
-                            backgroundColor: controller.sortInProgress.value
-                                ? MaterialStateProperty.all(
-                                    Theme.of(context).errorColor)
-                                : MaterialStateProperty.all(
-                                    Theme.of(context).primaryColor)),
-                        onPressed: () => controller.sortInProgress.value
-                            ? controller.setNeedStop()
-                            : controller.performSort(),
-                        child: controller.sortInProgress.value
-                            ? Text("Stop")
-                            : Text("Sort"),
-                      ),
+                  Obx(
+                    () => ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor: controller.sortInProgress.value
+                              ? MaterialStateProperty.all(
+                                  Theme.of(context).errorColor)
+                              : MaterialStateProperty.all(
+                                  Theme.of(context).primaryColor)),
+                      onPressed: () => controller.sortInProgress.value
+                          ? controller.setNeedStop()
+                          : controller.performSort(),
+                      child: controller.sortInProgress.value
+                          ? const Text("Stop")
+                          : const Text("Sort"),
                     ),
+                  ),
+                  const SizedBox(
+                    height: 20,
                   ),
                 ],
               ),
