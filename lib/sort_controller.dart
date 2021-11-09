@@ -199,6 +199,20 @@ class SortController extends GetxController {
     update();
   }
 
+  void defaultSort(bool descending) {
+    if (descending) {
+      lst.sort((a, b) => b.compareTo(a));
+    } else {
+      lst.sort();
+    }
+    update();
+  }
+
+  void shuffleList() {
+    lst.shuffle();
+    update();
+  }
+
   void updateSelectedInd(int ind) {
     selectedInd.value = ind;
     update();

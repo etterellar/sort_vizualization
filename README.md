@@ -1,16 +1,21 @@
-# sort_vizualization
+# Visualization of sorting algorithms
+This project is created to show how different sorting algorithms work. Despite the fact that there are many sorting algorithms which are available online, purpose of this particular project is to present sorting algorithms in an  interactive way. 
 
-A new Flutter project.
+The project is available via GitHub Pages: https://etterellar.github.io/sort_vizualization/
 
-## Getting Started
+That is why you are able to:
+ - select the size of array for sort
+ - choose sorting algorithm
+ - select speed of visualization
+ - stop sorting process at any moment 
+ - sort any array you have at the moment
 
-This project is a starting point for a Flutter application.
+Last two points allow users to sort array partially: by starting with one sorting algorithm, then stopping it and finishing with another algorithm. Moreover, this program allows you to sort already sorted array, so, you can explore how different sorting algorithms work with the best or worst data.
 
-A few resources to get you started if this is your first Flutter project:
+---
+## Sorting algorithms available for now
+ - Bubble sort
+ - Gnome sort
+ - Cocktail shaker sort
+ - Insertion sort
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
