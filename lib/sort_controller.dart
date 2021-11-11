@@ -20,6 +20,7 @@ class SortController extends GetxController {
     "Gnome sort",
     "Cocktail shaker sort",
     "Insertion sort",
+    "Selection sort",
   ];
 
   @override
@@ -69,6 +70,9 @@ class SortController extends GetxController {
       case 3:
         await insertionSort();
         break;
+      case 4:
+        await selectionSort();
+        break;
       default:
         lst.sort();
     }
@@ -83,6 +87,23 @@ class SortController extends GetxController {
     await Future.delayed(50.milliseconds);
     sortInProgress.value = false;
     update();
+  }
+
+  Future<void> selectionSort() async {
+    for (int i = 0; i < size - 1; i++) {
+      for (int j = i + 1; j < size; j++) {
+        if (needStop.value) {
+          updateSelectedInd(-1);
+          return;
+        }
+        updateSelectedInd(j);
+        if (lst[j] < lst[i]) {
+          swapElements(i, j);
+        }
+        await Future.delayed(
+            (baseTimeLimit / selectedSpeed.value).milliseconds);
+      }
+    }
   }
 
   Future<void> bubbleSort() async {

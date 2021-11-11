@@ -229,10 +229,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     height: 20,
                   ),
                   Expanded(
-                    child: LayoutBuilder(builder: (context, constraints) {
-                      final height = constraints.maxHeight;
-                      final maxElement = controller.lst.value.reduce(max);
-                      return Obx(() => Row(
+                    child: LayoutBuilder(
+                      builder: (context, constraints) {
+                        final height = constraints.maxHeight;
+                        final maxElement = controller.lst.value.reduce(max);
+                        return Obx(
+                          () => Row(
                             mainAxisSize: MainAxisSize.max,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -266,8 +268,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ),
                               ]
                             ],
-                          ));
-                    }),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                   const SizedBox(
                     height: 20,
