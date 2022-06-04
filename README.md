@@ -1,7 +1,7 @@
 # Visualization of sorting algorithms
 This project is created to show how different sorting algorithms work. Despite the fact that there are many sorting algorithms which are available online, purpose of this particular project is to present sorting algorithms in an  interactive way. 
 
-The project is available via GitHub Pages: https://etterellar.github.io/sort_vizualization/
+The project is available via GitHub Pages: [https://etterellar.github.io/sort_vizualization/](https://gkkryuchkov.github.io/sort_vizualization/)
 
 That is why you are able to:
  - select the size of array for sort
